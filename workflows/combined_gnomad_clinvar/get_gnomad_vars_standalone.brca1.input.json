@@ -1,3 +1,4 @@
 {
-  "get_gnomad_variants_standalone.GENE_NAME": "BRCA1"
+  "get_gnomad_variants_standalone.GENE_NAME": "BRCA1",
+  "get_gnomad_variants_standalone.get_gnomad_variants.python_script": "/home/mcline/CERFAC/workflows/combined_gnomad_clinvar/get_gnomad_variants.py"
 }
