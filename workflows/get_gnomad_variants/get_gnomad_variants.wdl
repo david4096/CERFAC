@@ -128,7 +128,7 @@ task get_gnomad_variants {
         memory: memory_calc + " GB"
         cpu: threadCount
         disks: "local-disk " + diskSizeGB + " SSD"
-        docker: "allisoncheney/cerfac_terra:gnomad"
+        docker: "brcachallenge/cerfac:gnomad"
         maxRetries: 0
         preemptible: 1
     }

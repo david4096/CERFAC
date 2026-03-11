@@ -2,7 +2,7 @@
 
 This directory contains two versions of the gnomAD variant extraction workflow:
 
-## `get_gnomad_vars.wdl` - Full Pipeline with ClinVar Merge
+## `get_gnomad_variants.wdl` - Full Pipeline with ClinVar Merge
 
 **Purpose**: Extract gnomAD variants and merge with ClinVar data for comprehensive variant annotation.
 
@@ -25,7 +25,7 @@ This directory contains two versions of the gnomAD variant extraction workflow:
 
 ---
 
-## `get_gnomad_vars_standalone.wdl` - gnomAD Only (No ClinVar Merge)
+## `get_gnomad_variants.wdl` - gnomAD Only (No ClinVar Merge)
 
 **Purpose**: Extract gnomAD variants without requiring ClinVar data.
 
@@ -110,10 +110,10 @@ cat > pten.input.json <<EOF
 EOF
 
 # Run with Cromwell
-java -jar cromwell.jar run get_gnomad_vars_standalone.wdl -i pten.input.json
+java -jar cromwell.jar run get_gnomad_variants.wdl -i pten.input.json
 
 # Run on Terra
-# 1. Upload get_gnomad_vars_standalone.wdl to workspace
+# 1. Upload get_gnomad_variants.wdl to workspace
 # 2. Create workflow with GENE_NAME input
 # 3. Launch analysis
 ```
@@ -132,7 +132,7 @@ cat > gnomad.input.json <<EOF
 }
 EOF
 
-java -jar cromwell.jar run get_gnomad_vars.wdl -i gnomad.input.json
+java -jar cromwell.jar run get_gnomad_variants.wdl -i gnomad.input.json
 ```
 
 ---
@@ -192,13 +192,13 @@ Includes all gnomAD columns PLUS ClinVar columns:
 
 ## When to Use Which Workflow
 
-### Use Standalone (`get_gnomad_vars_standalone.wdl`) when:
+### Use Standalone (`get_gnomad_variants.wdl`) when:
 - ✅ You only need population frequency data
 - ✅ You're analyzing benign/common variants
 - ✅ You don't have ClinVar data yet
 - ✅ You're running gnomAD extraction separately
 
-### Use Full Pipeline (`get_gnomad_vars.wdl`) when:
+### Use Full Pipeline (`get_gnomad_variants.wdl`) when:
 - ✅ You need both clinical and population data
 - ✅ You're building variant interpretation pipelines
 - ✅ You're training ML models for pathogenicity prediction
