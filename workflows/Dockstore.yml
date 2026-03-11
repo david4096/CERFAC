@@ -1,0 +1,7 @@
+version: 1.2
+workflows:
+  - name: get_gnomad_variants
+    subclass: WDL
+    primaryDescriptorPath: /workflows/get_gnomad_variants/get_gnomad_variants.wdl
+    testParameterFiles:
+      - /test/test_inputs.json
