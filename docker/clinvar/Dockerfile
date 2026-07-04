@@ -55,8 +55,5 @@ RUN pip3 install pandas
 RUN pip3 install natsort
 
 # add script
-#WORKDIR /opt/scripts
-#ADD cv_merge_script.py /opt/scripts
-#ADD problematic_vcv.xml /home
 WORKDIR /home
-ADD cv_merge_script.py /home
+ADD docker/clinvar/cv_merge_script.py /home/

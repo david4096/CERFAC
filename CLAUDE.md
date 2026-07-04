@@ -128,15 +128,25 @@ Three Docker images power the pipeline:
 
 ### Building Images Locally
 
+**Easy multi-platform builder** (recommended):
 ```bash
-# All three images
+# Build for current platform
+./docker/build.sh
+
+# Build for specific platform
+./docker/build.sh linux/amd64          # AMD64 (production)
+./docker/build.sh linux/arm64          # ARM64 (Apple Silicon)
+./docker/build.sh linux/amd64,linux/arm64 build  # Both platforms
+```
+
+**Manual builds** (single platform):
+```bash
 docker build -t cerfac-clinvar:latest docker/clinvar/
 docker build -t cerfac-merge:latest docker/merge_clinical_data/
 docker build -t cerfac-gnomad:latest workflows/get_gnomad_variants/docker/
-
-# Or use the test harness
-./test_harness.sh
 ```
+
+See [docker/README.md](docker/README.md) for detailed multi-platform build options.
 
 ### Testing Docker Installation
 
