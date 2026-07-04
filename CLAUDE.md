@@ -99,10 +99,10 @@ These are referenced in the step-by-step documentation and used for user testing
 ## Testing
 
 Test input files are in `workflows/test/`:
-- `get_clinvar_variants.brca1.input.json` — sample BRCA1 test inputs
-- `get_clinvar_variants.pten.input.json` — sample PTEN test inputs
-- `get_gnomad_variants.brca1.input.json`
-- `get_gnomad_variants.pten.input.json`
+- `get_gnomad_variants.brca1.input.json` — sample BRCA1 test inputs
+- `get_gnomad_variants.pten.input.json` — sample PTEN test inputs
+
+**Note**: ClinVar test inputs need to be created or obtained from Terra workspace.
 
 Run tests against known reference genes (BRCA1 is well-characterized; PTEN is smaller).
 
@@ -124,20 +124,22 @@ Three Docker images power the pipeline:
    - Used for: Population frequency queries
    - Size: ~2+ GB (includes Hail JVM)
 
-**See [docker/DOCKER_ANALYSIS.md](docker/DOCKER_ANALYSIS.md) for detailed analysis.**
+**See [docker/README.md](docker/README.md) for detailed image information.**
 
 ### Building Images Locally
 
-**Easy multi-platform builder** (recommended):
+**Multi-platform builder** (recommended):
 ```bash
 # Build for current platform
 ./docker/build.sh
 
 # Build for specific platform
-./docker/build.sh linux/amd64          # AMD64 (production)
-./docker/build.sh linux/arm64          # ARM64 (Apple Silicon)
+./docker/build.sh linux/amd64          # AMD64 (production/Terra)
+./docker/build.sh linux/arm64          # ARM64 (Apple Silicon, ARM servers)
 ./docker/build.sh linux/amd64,linux/arm64 build  # Both platforms
 ```
+
+Supports building for AMD64 (production workflows) and ARM64 (local development). Uses Docker buildx for efficient multi-platform builds.
 
 **Manual builds** (single platform):
 ```bash
@@ -145,8 +147,6 @@ docker build -t cerfac-clinvar:latest docker/clinvar/
 docker build -t cerfac-merge:latest docker/merge_clinical_data/
 docker build -t cerfac-gnomad:latest workflows/get_gnomad_variants/docker/
 ```
-
-See [docker/README.md](docker/README.md) for detailed multi-platform build options.
 
 ### Testing Docker Installation
 
@@ -192,30 +192,30 @@ java -Dconfig.file=workflows/combined_gnomad_clinvar/cromwell.conf \
 - **VRS/Variation ID API**: Used in `merge_clinical_functional_data.wdl` to normalize variant nomenclature
 - **Terra workspace** (production): Handles file management, data tables, workflow execution, cost tracking
 
-## Cleanup Status & Repository Structure
+## Cleanup & Infrastructure
+
+### Files Added
+
+- **docker/build.sh** - Multi-platform Docker builder for AMD64 and ARM64
+- **docker/README.md** - Docker image reference and documentation
+- **CROMWELL_SETUP.md** - Cromwell installation, configuration, and troubleshooting guide
+- **test_harness.sh** - Automated testing script for Docker images and WDL validation
+- **tools/cromwell-86.jar** - Cromwell workflow engine (241 MB, not committed to git)
+
+### Files Deleted
+
+- `test_wdl/` - Entire directory (old development test files, no longer part of pipeline)
+- `old.dockstore.yml` - Superseded by current `.dockstore.yml` (v1.2 → v1.3.1)
+
+### Files Updated
+
+- `.gitignore` - Added `.DS_Store` (macOS) and `tools/` (build artifacts)
+- `README.md` - Expanded with project overview and quick start guide
+- `docker/clinvar/Dockerfile` - Fixed ADD path for multi-platform builds
 
 ### Documentation Policy
 
-Only infrastructure and reference documentation is committed to the repository. Session-specific communication documents (FINAL_STATUS.md, NEXT_STEPS.md, START_HERE.md, CLEANUP_SUMMARY.md) are for immediate use only and not committed.
-
-### Critical Documentation (Committed)
-
-- **docker/DOCKER_ANALYSIS.md** - Comprehensive analysis of all three Docker images
-- **CROMWELL_SETUP.md** - Cromwell installation, configuration, and testing guide
-- **ORPHANED_FILES_ANALYSIS.md** - Detailed assessment of unused/redundant files
-- **test_harness.sh** - Automated testing script for Docker images and WDL validation
-
-### Known Orphaned Files
-
-**HIGH PRIORITY FOR DELETION**:
-- `test_wdl/` - Entire directory (old development test files, not part of current pipeline)
-- `old.dockstore.yml` - Superseded by current `.dockstore.yml` (v1.2 vs v1.3.1)
-
-**See [ORPHANED_FILES_ANALYSIS.md](ORPHANED_FILES_ANALYSIS.md) for complete assessment.**
-
-### .gitignore Updates
-
-Added macOS `.DS_Store` to `.gitignore` to prevent system files from being tracked.
+Only infrastructure and reference documentation is committed to the repository. Session-specific communication documents (e.g., FINAL_STATUS.md, NEXT_STEPS.md) are not committed.
 
 ## Notes for Modifications
 
