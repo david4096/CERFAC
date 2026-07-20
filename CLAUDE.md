@@ -82,14 +82,6 @@ These are referenced in the step-by-step documentation and used for user testing
    - **gnomAD VCF**: `chrom-pos-ref-alt` (dashes as separators, not colons/underscores)
    - **HGVS genomic**: `g.` format (less common)
 
-**Known Parsing Issues** (variants that will skip, not abort):
-
-- HGVS with `inv` (inversions) — API doesn't support
-- HGVS with bases after `dup`/`del` (e.g., `c.100_102dupAAA`) — not supported
-- Non-ACTG bases in variant
-- Coding variants in introns/upstream (with `+` or `-`) — intronic coding not supported, but VCF format is OK
-- HGVS with asterisks
-
 **Abort Errors** (halt entire workflow):
 
 - Missing first line of column names
@@ -235,7 +227,6 @@ Only infrastructure and reference documentation is committed to the repository. 
 ## Important Constraints & Quirks
 
 - Workflows assume **GRCh38** reference genome (hardcoded in ClinVar query)
-- MANE Select transcript is expected; transcripts vary by gene
 - gnomAD query time scales with gene length; very large genes (>2M bp) may take 20+ minutes
 - ClinVar extraction can return multiple rows per variant (one per submitter); downstream merging deduplicates
 - Case/control counts and disease frequency are user inputs to the R notebook; units matter for OR calculations
